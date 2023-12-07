@@ -1,0 +1,13 @@
+---
+title: "sta308_final_exam"
+author: "Will Paz"
+date: "2023-12-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
