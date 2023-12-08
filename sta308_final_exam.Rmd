@@ -1,5 +1,5 @@
 ---
-title: "sta308_final_exam"
+title: "STA308 Final Exam"
 author: "Will Paz"
 date: "2023-12-07"
 output: html_document
@@ -9,5 +9,59 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
+
+## Data Entry
+
+```{r}
+flu_2018 <- read_csv("https://tjfisher19.github.io/data/fluPneumonia_2018.csv")
+flu_2018 <- flu_2018 %>%
+  rename(Code = "State")
+```
+
+
+```{r}
+flu_2018 <- read_csv("https://tjfisher19.github.io/data/fluPneumonia_2018.csv")
+flu_2018 <- flu_2018 %>%
+  rename(Code = "State") # Renames "State" to "Code"
+
+flu_2021 <- read_csv("https://tjfisher19.github.io/data/fluPneumonia_2021.csv")
+
+state_abb_codes <- read_csv("https://tjfisher19.github.io/data/state_abb_codes.csv")
+
+census_regions <- read_csv("https://tjfisher19.github.io/data/censusRegions.csv")
+census_regions <- census_regions %>%
+  rename(Code = "State") # Renames "State" to "Code"
+
+## The following will go step by step by individually merging each of the four 
+## data frames using like variables until they are all combined into one 
+## final dataframe, df
+
+step1 <- merge(flu_2021,state_abb_codes,by="State") %>% 
+  rename(Rate_2021 = Rate)
+
+step2 <- merge(step1,flu_2018,by="Code") %>%
+  rename(Rate_2018 = Rate)
+
+df <- merge(census_regions,step2,by="Code")
+glimpse(df)
+```
+
+## Our Purpose
+
+For each of the four census regions, compute the mean state percentage decrease (difference) in the flu-pneumonia mortality rates from 2018 to 2021 ((Rate2018 - Rate2021)/Rate2018*100), along with the corresponding standard deviation and coefficient of variation. Since both Alaska and Hawaii are geographically separated from the contiguous states, remove them from this analysis. The result of your program should be a table of numbers with 4 rows (corresponding to the four census regions) and 3 columns of calculated values (the mean, standard deviation and coefficient of variation) [note: your output will be 4 columns when considering the census region as a variable, but should contain only 3 columns of numbers).
+
+```{r}
+flu_df <- df %>%
+  filter(!(Code %in% c("AK","HI"))) %>% # Removes Alaska and Hawaii
+  select(Region,Rate_2021,Rate_2018) %>% # Selects the region, and the rates of both 2018 and 2021
+  group_by(Region) %>% 
+  mutate(Pct_Dec = ((Rate_2018 - Rate_2021)/Rate_2018)*100) %>% # Creates a new variable percent decrease (Pct_Dec)
+  summarize(Mean = mean(Pct_Dec), # Summarizes mean, standard deviation, and coefficient of variance
+         SD = sd(Pct_Dec),
+         CoV = SD/Mean)
+flu_df
+```
+
+
 
 
