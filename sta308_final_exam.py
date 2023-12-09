@@ -50,7 +50,7 @@ df = census_regions.merge(step2,on="Code") # The final dataframe
 
 ## Dataframe Management
 
-flu_df = df[~df['Code'].isin(['AK', 'HI'])] # "Filters" out Alaska and Hawaii
+flu_df = df[(df['Code'] != "AK") & (df['Code'] != "HI")] # "Filters" out Alaska and Hawaii
 
 flu_df = flu_df[['Region', 'Rate2021', 'Rate2018']] # "Selects" the two rate columns and the region
 

@@ -58,7 +58,7 @@ flu_df <- df %>%
   mutate(Pct_Dec = ((Rate_2018 - Rate_2021)/Rate_2018)*100) %>% # Creates a new variable percent decrease (Pct_Dec)
   summarize(Mean = mean(Pct_Dec), # Summarizes mean, standard deviation, and coefficient of variance
          SD = sd(Pct_Dec),
-         CoV = SD/Mean)
+         CV = SD/Mean)
 flu_df
 ```
 
