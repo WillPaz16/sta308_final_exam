@@ -451,10 +451,10 @@ contain only 3 columns of numbers).</p>
   mutate(Pct_Dec = ((Rate_2018 - Rate_2021)/Rate_2018)*100) %&gt;% # Creates a new variable percent decrease (Pct_Dec)
   summarize(Mean = mean(Pct_Dec), # Summarizes mean, standard deviation, and coefficient of variance
          SD = sd(Pct_Dec),
-         CoV = SD/Mean)
+         CV = SD/Mean)
 flu_df</code></pre>
 <pre><code>## # A tibble: 4 × 4
-##   Region     Mean    SD   CoV
+##   Region     Mean    SD    CV
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Midwest    35.7  8.92 0.250
 ## 2 Northeast  38.5 12.4  0.323
